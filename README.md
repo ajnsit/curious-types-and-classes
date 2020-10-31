@@ -1,5 +1,5 @@
 # curious-types-and-classes
-Curious types and type classes found in the wild, and where to find them (i.e. where they are used).
+Curious types and type classes, and where they were found.
 
 
 ## Typeclasses
