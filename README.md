@@ -75,8 +75,8 @@ spliceWith f = Cokleisli (. f)
 -- 
 -- >>> printfLn ("list: " . s . "  tuple: " . s . "  string: " . s) [1,2,3] ("hello", 'a') "there"
 -- list: [1,2,3]  tuple: ("hello",'a')  string: "there"
-s :: (Monoid s, IsString s, Show t) => Format s a (t -> a)
-s = spliceWith (fromString . show)
+s :: Show s => Format String a (s -> a)
+s = spliceWith show
 ```
 
 There's also a stack language hiding in there -
