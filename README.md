@@ -53,3 +53,36 @@ class PolyMonad m n p where
   relReturn :: a -> m a
   relBind   :: m a -> (a -> n b) -> p b
 ```
+
+## Types
+
+### Cokleisli Category for Comonads of Functions out of Fixed Monoid in order to formalize... printf!
+https://github.com/cgibbard/category-printf/blob/master/src/Control/Category/Printf.hs#L58
+
+```haskell
+type Format m = Cokleisli ((->) m)
+```
+
+For example -
+
+```haskell
+-- | Given a way to turn a value of type t into a string, this builds a
+-- formatter which demands an additional argument of type t and splices it in.
+spliceWith :: (Monoid m) => (t -> m) -> Format m a (t -> a)
+spliceWith f = Cokleisli (. f)
+
+-- | Splice in anything showable.
+-- 
+-- >>> printfLn ("list: " . s . "  tuple: " . s . "  string: " . s) [1,2,3] ("hello", 'a') "there"
+-- list: [1,2,3]  tuple: ("hello",'a')  string: "there"
+s :: (Monoid s, IsString s, Show t) => Format s a (t -> a)
+s = spliceWith (fromString . show)
+```
+
+There's also a stack language hiding in there -
+
+```haskell
+printfLn (dup . s . " plus " . swap . dup . s . " equals " . apply2 (+) . s) 4 6
+> 4 plus 6 equals 10
+```
+
